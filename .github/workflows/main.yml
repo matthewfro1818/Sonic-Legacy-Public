@@ -57,6 +57,5 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@main
         with:
-          name: WindowsBuild
-          path: export/release/windows/bin/
-          if-no-files-found: warn
+          name: ReleaseBuild
+          path: export/release/windows/bin

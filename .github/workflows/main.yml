@@ -36,8 +36,8 @@ jobs:
           sudo apt-get install libvlccore-dev
           haxelib setup ~/haxelib
           haxelib install hxcpp > /dev/null --quiet
-          haxelib install flixel 5.2.2
           haxe -cp ./setup -D analyzer-optimize -main Main --interp
+          haxelib fixrepo
       - name: Skip SScript setup mode
         run: echo 'oy9:showMacroty8:loopCosti25y10:includeAllfg' >> ~/settings.cocoa
       - name: Create Version Tag
@@ -68,6 +68,7 @@ jobs:
           haxelib install hxcpp > /dev/null --quiet
           haxelib install flixel 5.2.2
           haxe -cp ./setup -D analyzer-optimize -main Main --interp
+          haxelib fixrepo
         shell: cmd
       - name: Skip SScript setup mode
         run: echo 'oy9:showMacroty8:loopCosti25y10:includeAllfg' >> %USERPROFILE%/settings.cocoa
@@ -96,8 +97,8 @@ jobs:
         run: |
           haxelib setup ~/haxelib
           haxelib install hxcpp > /dev/null --quiet
-          haxelib install flixel 5.2.2
           haxe -cp ./setup -D analyzer-optimize -main Main --interp
+          haxelib fixrepo
       - name: Skip SScript setup mode
         run: echo 'oy9:showMacroty8:loopCosti25y10:includeAllfg' >> ~/settings.cocoa
       - name: Create Version Tag

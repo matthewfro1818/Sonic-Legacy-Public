@@ -31,7 +31,7 @@ class FadeTransition extends TransitionSubstate
     super.destroy();
     finishCallback = null;
 
-    fade?.destroy();
+    fade.destroy();
   }
 
   function onFinish(f:FlxTimer):Void

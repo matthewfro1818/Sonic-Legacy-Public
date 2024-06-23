@@ -193,9 +193,6 @@ class FunkinLua extends FunkinScript
 
 		Lua_helper.add_callback(lua, "callOnLuas", function(?funcName:String, ?args:Array<Dynamic>, ignoreStops=false, ignoreSelf=true, ?exclusions:Array<String>){
 			if(funcName==null){
-				#if (linc_luajit >= "0.0.6")
-				LuaL.error(lua, "bad argument #1 to 'callOnLuas' (string expected, got nil)");
-				#end
 				return;
 			}
 			if(args==null)args = [];
@@ -211,15 +208,9 @@ class FunkinLua extends FunkinScript
 
 		Lua_helper.add_callback(lua, "callScript", function(?luaFile:String, ?funcName:String, ?args:Array<Dynamic>){
 			if(luaFile==null){
-				#if (linc_luajit >= "0.0.6")
-				LuaL.error(lua, "bad argument #1 to 'callScript' (string expected, got nil)");
-				#end
 				return;
 			}
 			if(funcName==null){
-				#if (linc_luajit >= "0.0.6")
-				LuaL.error(lua, "bad argument #2 to 'callScript' (string expected, got nil)");
-				#end
 				return;
 			}
 			if(args==null){
@@ -269,15 +260,9 @@ class FunkinLua extends FunkinScript
 
 		Lua_helper.add_callback(lua, "getGlobalFromScript", function(?luaFile:String, ?global:String){ // returns the global from a script
 			if(luaFile==null){
-				#if (linc_luajit >= "0.0.6")
-				LuaL.error(lua, "bad argument #1 to 'getGlobalFromScript' (string expected, got nil)");
-				#end
 				return;
 			}
 			if(global==null){
-				#if (linc_luajit >= "0.0.6")
-				LuaL.error(lua, "bad argument #2 to 'getGlobalFromScript' (string expected, got nil)");
-				#end
 				return;
 			}
 			var cervix = luaFile + ".lua";
@@ -316,8 +301,6 @@ class FunkinLua extends FunkinScript
 							Lua.pushnumber(lua, Lua.tonumber(luaInstance.lua, -1));
 						}else if(Lua.isstring(luaInstance.lua,-1)){
 							Lua.pushstring(lua, Lua.tostring(luaInstance.lua, -1));
-						}else if(Lua.isboolean(luaInstance.lua,-1)){
-							Lua.pushboolean(lua, Lua.toboolean(luaInstance.lua, -1));
 						}else{
 							Lua.pushnil(lua);
 						}
@@ -422,9 +405,6 @@ class FunkinLua extends FunkinScript
 							}else if(Lua.isstring(luaInstance.lua,-2)){
 								Lua.pushstring(lua, Lua.tostring(luaInstance.lua, -2));
 								pop++;
-							}else if(Lua.isboolean(luaInstance.lua,-2)==true){
-								Lua.pushboolean(lua, Lua.toboolean(luaInstance.lua, -2));
-								pop++;
 							}
 							// TODO: table
 
@@ -435,9 +415,6 @@ class FunkinLua extends FunkinScript
 								pop++;
 							}else if(Lua.isstring(luaInstance.lua,-1)){
 								Lua.pushstring(lua, Lua.tostring(luaInstance.lua, -1));
-								pop++;
-							}else if(Lua.isboolean(luaInstance.lua,-1)==true){
-								Lua.pushboolean(lua, Lua.toboolean(luaInstance.lua, -1));
 								pop++;
 							}
 							// TODO: table
@@ -2460,45 +2437,9 @@ class FunkinLua extends FunkinScript
 
 	override public function call(func:String, ?args:Array<Dynamic>): Dynamic{
 		#if LUA_ALLOWED
-		try {
-			if(args==null)args=[];
-			if(lua==null)return Function_Continue;
-
-			Lua.getglobal(lua, func);
-			#if (linc_luajit >= "0.0.6")
-			if(Lua.isfunction(lua, -1)==true){
-			#else
-			if(Lua.isfunction(lua, -1)==true){
-			#end
-				for(arg in args) Convert.toLua(lua, arg);
-				var result: Dynamic = Lua.pcall(lua, args.length, 1, 0);
-				if(result!=0){
-					var err = getErrorMessage();
-					if(errorHandler!=null){
-						errorHandler(err);
-					}else{
-						trace("ERROR: " + err);
-					}
-					//LuaL.error(state,err);
-				}else{
-					if(result != null){
-						var conv:Dynamic = Convert.fromLua(lua, -1);
-						Lua.pop(lua, 1);
-					if (conv == null)
-						return Function_Continue;
-						return conv;
-					}
-				}
-			}else{
-				Lua.pop(lua, 1);
-			return Function_Continue;
-			}
-		}catch(e:Dynamic){
-			trace(e);
-		}
-		#end
-		return Function_Continue;
-
+		Lua.getglobal(lua, func);
+    	#end
+	   	return Function_Continue;
 	}
 
 	public static function getPropertyLoopThingWhatever(killMe:Array<String>, ?checkForTextsToo:Bool = true, ?getProperty:Bool=true):Dynamic

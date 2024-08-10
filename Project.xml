@@ -30,7 +30,7 @@
 	<window if="desktop" orientation="landscape" fullscreen="false" resizable="true" vsync="false"/>
 
 	<!--Mobile-specific-->
-	<window if="mobile" orientation="landscape" fullscreen="true" width="0" height="0" resizable="false"/>
+	<window if="mobile" orientation="landscape" fullscreen="true" width="1280" height="720" resizable="false"/>
 
 	<!--Switch-specific-->
 	<window if="switch" orientation="landscape" fullscreen="true" width="0" height="0" resizable="true" />
@@ -46,7 +46,7 @@
 	<!-- PSYCH ENGINE CUSTOMIZATION -->
 	<!-- <define name="DISCORD_ALLOWED" if="desktop" /> -->
 	<define name="MODS_ALLOWED" if="desktop" />
-	<define name="LUA_ALLOWED" if="desktop" />
+	<define name="LUA_ALLOWED" if="desktop || mobile"/>
 	<define name="ACHIEVEMENTS_ALLOWED" />
 	<define name="VIDEOS_ALLOWED" unless="32bits"/>
 	<define name="PSYCH_WATERMARKS"/> <!-- DELETE THIS TO REMOVE WATERMARKS/DEV NAMES ON TITLE SCREEN -->
@@ -72,7 +72,7 @@
 	<assets path="assets/embeds/music" rename= "assets/music" embed="false" unless="EXE_EMBEDDING"/>
 	<assets path="assets/embeds/shaders" rename= "assets/shaders" embed="false" unless="EXE_EMBEDDING"/>
 	<assets path="assets/embeds/sounds" rename= "assets/sounds" embed="false" unless="EXE_EMBEDDING"/>
-
+	<assets path="mobile" rename="assets/mobile" if="mobile" />
 
 	<!-- <assets path="assets/embeds/videos" rename= "assets/videos" embed="true"/>  -->
 	<!-- <i dont believe embedded videos can be accessed...> -->
@@ -139,6 +139,7 @@
 	<!--<haxelib name="polymod"/> -->
 	<haxelib name="discord_rpc" if="desktop"/>
 	<haxelib name="hxvlc"/>
+	<haxelib name="extension-androidtools" />
 
 	<!-- <heh....just fixed this stupid import garbage so now we can more easily/dynamically change uis huzzah!/> -->
 	<haxeflag name="--macro" value="include('meta.ui')" />
@@ -183,7 +184,17 @@
 	<!--Enable this for Nape release builds for a serious peformance improvement-->
 	<haxedef name="NAPE_RELEASE_BUILD" unless="debug" />
 
+        <config:android gradle-version="7.5.1" />
+        <config:android gradle-plugin="7.3.1" />
+	<android permission="android.permission.CAPTURE_AUDIO_OUTPUT"/>
+	<android target-sdk-version="29" if="android"/>
+
 	<haxedef name="no-deprecation-warnings"/>
+
+	<!--Used for Izzy Engine's crash handler-->
+	<haxedef name="HXCPP_STACK_TRACE"/>
+	<haxedef name="HXCPP_CHECK_POINTER"/>
+	<haxedef name="HXCPP_STACK_LINE"/>
 
 	<!-- _________________________________ Custom _______________________________ -->
 
